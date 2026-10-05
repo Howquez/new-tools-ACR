@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACR 2026: New experimental paradigms and tools for consumer research</title>
+<meta name="description" content="Slides from the ACR 2026 session in Chicago on new experimental paradigms and tools for consumer research: Open Science Online Grocery, DICE, TestTube and a simulated online bookstore.">
+<meta property="og:title" content="New experimental paradigms and tools for consumer research">
+<meta property="og:description" content="ACR 2026, Chicago, 26 September 2026">
+<meta property="og:image" content="assets/wrench.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,800;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141414; --muted:#666a70; --faint:#ececee; --panel:#f4f4f6; --rule:#dcdce0;
+  --accent:#3b3ccf; --accent-soft:#e6e6fb; --link:#2f3bbd;
+  --dark:#222326; --dark-2:#2d2e32; --dark-rule:#3d3e44; --dark-ink:#f2f2f3; --dark-muted:#a5a6ad; --dark-accent:#a9acff;
+  --sans:"Hanken Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);font:400 18px/1.55 var(--sans)}
+img,video{max-width:100%;height:auto;display:block}
+a{color:var(--link);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+h1,h2,h3,h4,p,ul,ol,figure,dl,dd{margin:0}
+ul,ol{padding:0}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.bar .wrap{display:flex;align-items:center;gap:24px;height:56px}
+.brand{font-weight:800;letter-spacing:-.01em;white-space:nowrap;color:var(--ink);text-decoration:none}
+.bar nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{padding:7px 12px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.92rem;white-space:nowrap}
+.bar nav a:hover{color:var(--ink)}
+.bar nav a[aria-current="true"]{background:var(--ink);color:#fff}
+
+/* hero */
+.hero{padding:clamp(48px,8vw,96px) 0 clamp(64px,9vw,120px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);column-gap:clamp(32px,5vw,72px);align-items:end}
+.hero .wrap>div:first-child{display:contents}
+.hero h1,.hero .when{grid-column:1/-1}
+.hero h1{max-width:15ch}
+.hero .people{grid-column:1}
+.hero .wrench{grid-column:2}
+h1{font-size:clamp(2.6rem,7.4vw,6.4rem);font-weight:800;font-style:italic;line-height:.98;letter-spacing:-.035em}
+.when{margin-top:20px;font-size:1.15rem;color:var(--muted)}
+.people{list-style:none;margin-top:clamp(36px,5vw,64px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 36px}
+.people li{display:flex;flex-direction:column;line-height:1.3}
+.people strong{font-weight:600}
+.people span{color:var(--muted);font-size:.95rem}
+.wrench{position:relative;align-self:end;padding-bottom:34px}
+.wrench img{width:100%;height:auto}
+.badge{position:absolute;right:0;bottom:-34px;width:112px;height:112px;border-radius:50%;background:#e5171f;color:#fff;font-size:.78rem;line-height:1.2;font-weight:600;text-align:center;display:grid;place-items:center;padding:14px}
+
+/* sections */
+.sec{padding:clamp(72px,10vw,128px) 0}
+.sec+.sec{border-top:1px solid var(--rule)}
+.note-sec+.sec{border-top:0}
+.sec-head{margin-bottom:clamp(40px,6vw,72px)}
+.sec-head .num{display:block;font-size:clamp(7rem,21vw,16.5rem);font-weight:800;letter-spacing:-.06em;line-height:.78;color:var(--faint);user-select:none}
+.sec-head h2{position:relative;margin-top:-.2em;font-size:clamp(2.4rem,7vw,5.2rem);font-weight:800;letter-spacing:-.04em;line-height:1}
+.block{margin-top:clamp(72px,9vw,112px)}
+.block>h3{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin-bottom:28px}
+.sub{color:var(--muted);font-size:1.1rem;margin:-14px 0 28px}
+.lede{font-size:clamp(1.35rem,2.4vw,1.8rem);line-height:1.3;letter-spacing:-.01em;max-width:30ch}
+.byline strong{font-weight:600;display:block}
+.byline span{color:var(--muted)}
+li::marker{color:var(--accent)}
+.bl{padding-left:1.1em;display:grid;gap:10px}
+.bl li{padding-left:.2em}
+.bl strong{font-weight:700}
+figure img{border:1px solid var(--rule);background:#fff}
+figcaption{margin-top:12px;font-size:1rem;color:var(--muted)}
+figcaption.t{font-size:1.25rem;font-weight:800;color:var(--ink);letter-spacing:-.01em;margin:0 0 14px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,64px)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,48px)}
+
+/* source note */
+.note-sec{padding:clamp(56px,8vw,96px) 0;background:var(--panel)}
+.note-sec .lede{max-width:30ch}
+.note-sec .doi{display:inline-block;margin-top:28px;font-size:clamp(1.1rem,2vw,1.4rem);font-weight:800;letter-spacing:-.01em;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:2px;word-break:break-all}
+.note-sec .doi:hover{color:var(--accent)}
+/* agenda */
+.agenda{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,72px)}
+.agenda>div{position:relative;padding-top:clamp(56px,9vw,120px)}
+.agenda .big{position:absolute;top:0;left:-.04em;font-size:clamp(9rem,17vw,15rem);font-weight:800;line-height:.7;color:var(--faint);letter-spacing:-.06em;user-select:none}
+.agenda h3{position:relative;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:20px;max-width:18ch}
+.agenda ul{position:relative;list-style:none;display:grid;gap:8px;font-size:1.15rem}
+.agenda li a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule)}
+.agenda li a:hover{border-color:var(--accent);color:var(--accent)}
+.agenda li.soft{color:var(--muted)}
+.agenda p{position:relative;color:var(--muted);margin-bottom:12px}
+
+/* grocery */
+.cols-h{font-size:1.5rem;font-weight:800;letter-spacing:-.015em;color:var(--accent);margin-bottom:18px}
+.stackrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+.stackcol{padding:0 clamp(20px,4vw,56px) 8px 0}
+.stackcol+.stackcol{padding:0 0 8px clamp(20px,4vw,56px);border-left:1px solid var(--rule)}
+.stackcol h4{font-size:1.5rem;font-weight:800;letter-spacing:-.015em}
+.stackcol .url{display:block;color:var(--muted);font-size:.95rem;margin:4px 0 24px;word-break:break-word}
+.stackcol h5{margin:22px 0 8px;font-size:1rem;font-weight:800}
+.stackcol ul{padding-left:1.1em;display:grid;gap:6px}
+.results{width:100%;border-collapse:collapse;font-size:1.05rem}
+.results th,.results td{text-align:left;vertical-align:top;padding:16px 20px;border-bottom:1px solid var(--rule)}
+.results thead th{background:var(--panel);font-size:1.15rem;font-weight:800;border-bottom:0}
+.results tbody th{width:22%;color:var(--muted);font-weight:600}
+.results td strong{font-weight:800}
+.results .q{color:#9a9ca3;font-weight:600}
+.cite{margin-top:14px;color:var(--muted);font-size:.95rem}
+.linkrows{list-style:none;border-top:1px solid var(--rule)}
+.linkrows a{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:22px 4px;border-bottom:1px solid var(--rule);color:var(--ink);text-decoration:none;font-size:clamp(1.25rem,2.4vw,1.7rem);font-weight:800;letter-spacing:-.015em}
+.linkrows a span{font-size:.95rem;font-weight:500;letter-spacing:0;color:var(--muted);text-align:right;word-break:break-all}
+.linkrows a:hover{color:var(--accent)}
+
+/* dice */
+.dice-title{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,5vw,64px);align-items:center}
+.dice-title h3{font-size:clamp(4rem,12vw,9rem);font-weight:800;letter-spacing:-.05em;line-height:.9;margin:0 0 20px}
+.dice-title .tag{font-size:clamp(1.4rem,2.6vw,2.1rem);line-height:1.25;letter-spacing:-.01em;max-width:28ch}
+mark{background:linear-gradient(transparent 58%,#c7c8fb 58%);color:inherit;padding:0 .08em}
+.auth3{display:flex;flex-wrap:wrap;gap:20px 40px;margin-top:40px}
+.auth3 strong{display:block;font-weight:600;white-space:nowrap}
+.auth3 span{color:var(--muted);font-size:.95rem}
+.when-r{margin-top:28px;color:var(--muted)}
+.paradigms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,40px)}
+.paradigms h4{font-size:1.45rem;font-weight:800;letter-spacing:-.015em;margin-bottom:10px}
+.paradigms p{color:#3f4146;font-size:1rem}
+.paradigms .refs{margin-top:16px;font-size:.88rem;color:var(--muted);font-style:italic;line-height:1.4}
+.interf{grid-column:2/4;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(20px,3vw,40px);margin-top:4px}
+@supports (grid-template-columns:subgrid){.interf{grid-template-columns:subgrid}}
+.interf b{grid-column:1/-1;text-align:center;font-size:1.35rem;font-weight:800;font-style:italic;letter-spacing:-.015em;line-height:1.2;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.irefs{list-style:none;margin-top:14px;color:var(--muted);font-size:.88rem;font-style:italic;line-height:1.4}
+.axes{margin-top:44px;display:grid;gap:14px}
+.axis{display:grid;grid-template-columns:2rem 1fr 2rem;align-items:center;gap:10px;color:var(--muted);font-weight:600}
+.axis .l{height:2px;background:linear-gradient(90deg,var(--rule),var(--ink))}
+.axis.rev .l{background:linear-gradient(90deg,var(--ink),var(--rule))}
+.axis .m{position:relative;text-align:center}
+.axis .m b{position:relative;background:#fff;padding:0 14px;color:var(--ink);font-weight:600}
+.axis .m::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:linear-gradient(90deg,#e4e4e8,#141414)}
+.axis.rev .m::before{background:linear-gradient(90deg,#141414,#e4e4e8)}
+.axis .e{text-align:center;font-size:1.4rem;color:var(--ink)}
+.intro{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(32px,6vw,96px);align-items:center}
+.phone{position:relative;width:min(300px,72vw);aspect-ratio:778/1668;border:10px solid #111;border-radius:44px;overflow:hidden;background:#fff;box-shadow:0 24px 60px rgba(20,20,40,.18)}
+.phone video,.phone img{width:100%;height:100%;object-fit:cover}
+.phone-wrap{position:relative;justify-self:center}
+.bubble{position:absolute;z-index:2;left:-64px;top:-22px;width:116px;height:116px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;text-align:center;font-size:.82rem;line-height:1.25;padding:14px;font-weight:500}
+.intro .lede{max-width:22ch;margin-bottom:28px}
+.intro .bl{font-size:1.2rem;gap:14px}
+.social{display:flex;gap:16px;margin:36px 0 18px}
+.social img{width:38px;height:38px}
+.small{color:var(--muted);font-size:.95rem}
+.four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,3vw,36px);list-style:none;margin-bottom:56px}
+.four li{position:relative;padding-top:3.6rem;font-weight:600;line-height:1.35;font-size:1.05rem}
+.four li::before{content:attr(data-n);position:absolute;top:-.2rem;left:-.05em;font-size:5rem;line-height:1;font-weight:800;color:var(--faint);z-index:-1;letter-spacing:-.05em}
+.four{isolation:isolate}
+.layers{display:grid;grid-template-columns:3rem minmax(0,1fr) 3rem;gap:16px;align-items:stretch}
+.rail{background:var(--panel);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.92rem;text-align:center;padding:14px 4px}
+.rail div{writing-mode:vertical-rl;transform:rotate(180deg);line-height:1.2}
+.rail.r div{transform:none}
+.rail em{display:block;font-style:normal;font-size:.8rem;opacity:.85}
+.mid{display:grid;gap:18px}
+.lbox{border:1px solid var(--rule);border-radius:10px;padding:22px 26px;background:#fff}
+.lbox.ghost{border-style:dashed;color:var(--muted);background:var(--panel)}
+.lbox h4{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.lbox .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:8px 28px;align-items:baseline;padding:14px 0;border-top:1px solid var(--rule)}
+.lbox .row:first-of-type{border-top:0}
+.lbox .row b{font-weight:600}
+.lbox .row span{color:var(--muted);font-size:.95rem}
+.lbox .ghost-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 24px}
+.lbox .ghost-row span{font-size:.95rem}
+
+/* testtube (dark) */
+.dark{background:var(--dark);color:var(--dark-ink)}
+.dark .sec-head .num{color:#37383d}
+.dark .sub,.dark figcaption,.dark .small{color:var(--dark-muted)}
+.dark li::marker{color:var(--dark-accent)}
+.dark figure img{border-color:var(--dark-rule)}
+.tt-intro{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,6vw,80px);align-items:center}
+.tt-intro .logo{width:min(440px,100%)}
+.tt-intro p.tag{margin-top:12px;color:var(--dark-muted);font-size:1.15rem}
+.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.5vw,32px)}
+.team figure img{width:100%;aspect-ratio:420/760;object-fit:cover;border-radius:14px;border:0}
+.team figcaption{color:var(--dark-ink);font-weight:600;text-align:center;line-height:1.25}
+.why{display:grid;grid-template-columns:minmax(0,.8fr) auto minmax(0,1.4fr);gap:clamp(16px,3vw,36px);align-items:center}
+.pane{background:var(--dark-2);border-radius:16px;padding:clamp(22px,3vw,34px);position:relative}
+.pane h4{font-size:1.3rem;font-weight:800;letter-spacing:-.01em}
+.pane .why-sub{color:var(--dark-muted);font-size:.95rem;margin:2px 0 22px}
+.pane .lockic{position:absolute;top:16px;right:16px;width:34px;filter:invert(1);opacity:.9}
+.pub{list-style:none;display:grid;gap:10px;font-family:var(--mono);font-size:1.05rem}
+.pub li{display:flex;gap:12px;align-items:baseline}
+.pub b{font-weight:500;min-width:4.6ch;text-align:right;color:var(--dark-ink)}
+.pub span{color:var(--dark-muted);font-family:var(--sans);font-size:.95rem}
+.platforms{display:grid;gap:14px;justify-items:center}
+.platforms img{width:54px;height:54px;object-fit:contain;background:#fff;border-radius:14px;padding:8px}
+.platforms .arrow{color:var(--dark-muted);font-size:1.6rem;line-height:1}
+.hidden-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 16px;text-align:center}
+.stat b{display:block;font-family:var(--mono);font-weight:500;font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.03em;color:#fff;line-height:1.1}
+.stat strong{display:block;font-weight:600;margin-top:4px;font-size:.98rem}
+.stat span{display:block;color:var(--dark-muted);font-size:.85rem;line-height:1.3}
+.footnote{margin-top:22px;text-align:center;color:var(--dark-muted);font-size:.85rem;font-family:var(--mono)}
+.tt3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,36px);align-items:stretch}
+.tcard{background:var(--dark-2);border-radius:16px;padding:clamp(22px,2.6vw,32px);display:flex;flex-direction:column;gap:20px}
+.tcard h4{font-size:1.45rem;font-weight:800;letter-spacing:-.015em}
+.tcard p{color:var(--dark-muted);font-size:1rem}
+.tcard .push{margin-top:auto}
+.tcard .phone{width:min(210px,100%);border-width:7px;border-radius:30px;margin:0 auto;box-shadow:none}
+.switches{list-style:none;display:grid;gap:22px;margin-top:10px}
+.switches li{display:flex;justify-content:space-between;align-items:center;font-size:1.2rem;padding-bottom:22px;border-bottom:1px solid var(--dark-rule)}.switches li:last-child{border-bottom:0}
+.sw{width:46px;height:26px;border-radius:13px;background:#4a4b52;position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#bdbec6}
+.sw.on{background:var(--dark-accent)}
+.sw.on::after{left:23px;background:#1b1c2e}
+.code{font-family:var(--mono);font-size:.74rem;line-height:1.7;background:#17181a;border-radius:10px;padding:14px 16px;white-space:pre-wrap;overflow-wrap:anywhere;color:#cfd0d6;margin:0}
+.code i{font-style:normal;color:var(--dark-accent)}
+.tcard .tl{background:#fff;border-radius:8px;padding:6px}
+.demo{margin-top:clamp(28px,4vw,44px)}
+.demo video{width:100%;height:auto;border-radius:14px;background:#000}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,24px);counter-reset:s}
+.step{background:var(--dark-2);border-radius:16px;padding:24px 24px 26px;position:relative;display:flex;flex-direction:column;gap:10px}
+.step .n{font-family:var(--mono);font-size:.85rem;color:var(--dark-accent)}
+.step h4{font-size:1.25rem;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
+.step h4 img{width:30px;height:30px;object-fit:contain}
+.step h4 img.inv{filter:invert(1)}.step h4 img.lg{width:auto;height:30px;background:#fff;border-radius:6px;padding:4px 6px}
+.step p{color:#d4d5da;font-size:.98rem;line-height:1.45}
+.step .mut{color:var(--dark-muted);font-size:.9rem}
+.step code{font-family:var(--mono);font-size:.8rem;background:#17181a;border-radius:8px;padding:8px 10px;color:var(--dark-accent);word-break:break-all;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.chip{font-size:.8rem;border:1px solid var(--dark-rule);border-radius:999px;padding:4px 11px;color:var(--dark-muted);display:inline-flex;gap:7px;align-items:center}
+.chip img{width:16px;height:16px;object-fit:contain}
+.chip img.inv{filter:invert(1)}.chip img.lg{background:#fff;border-radius:4px;padding:2px 4px}
+.kv{display:flex;gap:18px;flex-wrap:wrap}
+.kv b{display:block;font-family:var(--mono);font-weight:500;font-size:1.4rem;color:#fff;line-height:1.1}
+.kv span{font-size:.85rem;color:var(--dark-muted)}
+
+/* bookstore */
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,48px);align-items:start}
+.shots img{width:100%;height:auto}
+.pc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,72px)}
+.pc h4{font-size:1.4rem;font-weight:800;letter-spacing:-.015em;margin-bottom:20px;color:var(--accent)}
+.pc ol{list-style:none;counter-reset:n;display:grid;gap:24px}
+.pc ol>li{counter-increment:n;position:relative;padding-left:2.6rem}
+.pc ol>li::before{content:counter(n);position:absolute;left:0;top:-.15rem;font-size:1.9rem;font-weight:800;color:var(--accent);line-height:1.1}
+.pc ol>li>b{display:block;font-size:1.25rem;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.pc ol ul{padding-left:1.1em;display:grid;gap:4px;color:#3f4146}
+.pc s{text-decoration-thickness:2px}
+
+/* resources */
+.tablewrap{overflow-x:auto;margin:0 calc(-1*clamp(16px,4vw,40px));padding:0 clamp(16px,4vw,40px)}
+.res{width:100%;min-width:840px;border-collapse:collapse}
+.res th,.res td{text-align:left;vertical-align:top;padding:18px 18px 18px 0;border-bottom:1px solid var(--rule);font-size:1rem;line-height:1.45}
+.res thead th{background:var(--panel);padding:18px;font-size:1.15rem;font-weight:800;letter-spacing:-.01em;line-height:1.2;border-bottom:0}
+.res thead th:first-child{background:none}
+.res tbody td{padding-left:18px}
+.res{table-layout:fixed}.res thead th:first-child,.res tbody th{width:11%}.res tbody th{color:var(--muted);font-weight:600}.res td{overflow-wrap:anywhere}.res td a{font-size:.95rem}
+.res td strong{display:block;font-weight:700}
+.res td .j{display:block;color:var(--muted);margin-top:2px}
+.res td a{word-break:break-word}
+.res .na{color:#9a9ca3}
+.papers{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px clamp(28px,5vw,56px)}
+.paper .page{display:flex;aspect-ratio:1.613;overflow:hidden;border:1px solid var(--rule);background:#fff;transition:transform .25s,box-shadow .25s}
+.paper .page img{width:100%;height:100%;object-fit:cover;object-position:top;border:0}
+.paper.fit .page img{object-fit:contain;object-position:center;padding:0 4%}
+.paper:hover .page{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+.paper .c{padding-top:20px;max-width:60ch}
+.paper .au{font-weight:600;font-size:.95rem;margin-bottom:6px}
+.paper h4{font-size:1.4rem;font-weight:500;line-height:1.28;letter-spacing:-.005em;margin-bottom:8px}
+.paper h4 a{color:inherit;text-decoration:none;background:linear-gradient(var(--link),var(--link)) 0 100%/0 1px no-repeat;transition:background-size .3s,color .2s}
+.paper:hover h4 a,.paper h4 a:focus-visible{color:var(--link);background-size:100% 1px}
+.paper .v{color:var(--muted);font-style:italic}
+.issue{margin-top:80px;background:#13294b;color:#fff;display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;padding:34px 40px;text-decoration:none;border-radius:4px}
+.issue img{width:120px;height:auto;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.issue .k{font-weight:600;font-size:.95rem;color:#b9c4d6;margin-bottom:4px}
+.issue h4{font-size:clamp(1.5rem,3.2vw,2.3rem);font-weight:500;line-height:1.15;margin-bottom:6px}
+.issue .w{font-style:italic;color:#b9c4d6}
+.issue:hover h4{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+
+footer{border-top:1px solid var(--rule);padding:40px 0 64px;color:var(--muted);font-size:.95rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:980px){
+  .hero .wrap{grid-template-columns:1fr}
+  .hero .people,.hero .wrench{grid-column:1}
+  .hero h1{max-width:none}
+  .wrench{max-width:520px;margin-top:40px}
+  .badge{bottom:-20px}
+  .dice-title,.intro,.tt-intro{grid-template-columns:1fr}
+  .tt3,.flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .why{grid-template-columns:1fr}
+  .platforms{grid-auto-flow:column;justify-content:center}
+  .platforms .arrow{transform:rotate(90deg)}
+  .four{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 24px}
+}
+@media (max-width:720px){
+  body{font-size:17px}
+  .bar .brand{display:none}
+  .bar nav{margin-left:0}
+  .people{grid-template-columns:1fr}
+  .interf{grid-column:1;grid-template-columns:1fr}
+  .agenda,.two,.three,.stackrow,.shots,.pc,.paradigms,.papers,.tt3,.flow{grid-template-columns:1fr}
+  .agenda>div{padding-top:80px}
+  .stackcol,.stackcol+.stackcol{padding:0;border-left:0}
+  .stackcol+.stackcol{margin-top:36px;padding-top:28px;border-top:1px solid var(--rule)}
+  .auth3{grid-template-columns:1fr}
+  .results thead{display:none}
+  .results,.results tbody,.results tr,.results th,.results td{display:block}
+  .results tr{padding:14px 0;border-bottom:1px solid var(--rule)}
+  .results th,.results td{border:0;padding:6px 0;width:auto!important}
+  .results td::before{content:attr(data-h);display:block;font-weight:800;font-size:.85rem;margin-bottom:2px}
+  .layers{grid-template-columns:1fr}
+  .rail div,.rail.r div{writing-mode:horizontal-tb;transform:none}
+  .lbox .row{grid-template-columns:1fr}
+  .hidden-grid{gap:22px 8px}
+  .team{gap:10px}
+  .issue{grid-template-columns:1fr;gap:20px;padding:28px 20px}
+  .issue img{width:96px}
+  .bubble{left:-12px;top:-14px;width:96px;height:96px;font-size:.72rem}
+  .linkrows a{flex-direction:column;gap:4px}
+  .linkrows a span{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top">ACR 2026</a>
+    <nav aria-label="Sections">
+      <a href="#agenda">Agenda</a>
+      <a href="#grocery">1.1 Grocery</a>
+      <a href="#dice">1.2 DICE</a>
+      <a href="#testtube">1.3 TestTube</a>
+      <a href="#bookstore">1.4 Bookstore</a>
+      <a href="#resources">1.5 Resources</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ TITLE ============ -->
+<section class="hero" aria-labelledby="title">
+  <div class="wrap">
+    <div>
+      <h1 id="title">New experimental paradigms and tools for consumer research</h1>
+      <p class="when">ACR 2026, Chicago, 26 September 2026</p>
+      <ul class="people">
+        <li><strong>Simon J. Blanchard</strong><span>Georgetown University</span></li>
+        <li><strong>Johannes Boegershausen</strong><span>Erasmus University Rotterdam</span></li>
+        <li><strong>Aaron Garvey</strong><span>University of Tennessee</span></li>
+        <li><strong>Kelly L. Haws</strong><span>Vanderbilt University</span></li>
+        <li><strong>Holly Howe</strong><span>University of British Columbia</span></li>
+        <li><strong>Moritz Joerling</strong><span>EM Lyon Business School</span></li>
+        <li><strong>John G. Lynch, Jr.</strong><span>University of Colorado Boulder</span></li>
+        <li><strong>Ilya Morozov</strong><span>Northwestern University</span></li>
+        <li><strong>Maxwell Poole</strong><span>Erasmus University Rotterdam</span></li>
+        <li><strong>Hauke Roggenkamp</strong><span>ETH Zurich</span></li>
+        <li><strong>Oleg Urminsky</strong><span>University of Chicago</span></li>
+      </ul>
+    </div>
+    <div class="wrench">
+      <img src="assets/wrench.webp" width="1200" height="342" alt="Black-and-white sketch of an adjustable wrench with a worm gear">
+      <div class="badge">These slides have been edited after the session.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOURCE NOTE ============ -->
+<section class="note-sec" aria-label="About these slides">
+  <div class="wrap">
+    <p class="lede">This presentation is based on a slide deck that we provide on Zenodo, together with the original session proposal for ACR 2026.</p>
+    <a class="doi" href="https://doi.org/10.5281/zenodo.23154344" target="_blank" rel="noopener">doi.org/10.5281/zenodo.23154344</a>
+  </div>
+</section>
+
+<!-- ============ AGENDA ============ -->
+<section class="sec" id="agenda" aria-labelledby="agenda-h">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="agenda-h" style="margin-top:0">Agenda</h2></div>
+    <div class="agenda">
+      <div>
+        <span class="big" aria-hidden="true">1</span>
+        <h3>Setting the stage: some examples and reflections</h3>
+        <ul>
+          <li><a href="#grocery">Open Science Online Grocery</a></li>
+          <li><a href="#dice">DICE: Digital In-Context Experiments</a></li>
+          <li><a href="#testtube">TestTube</a></li>
+          <li><a href="#bookstore">Online Bookstore</a></li>
+          <li class="soft">Lessons from a decade of building apps</li>
+        </ul>
+      </div>
+      <div>
+        <span class="big" aria-hidden="true">2</span>
+        <h3>Open discussion with panel and audience</h3>
+        <p>Topics may explore:</p>
+        <ul class="bl" style="list-style:disc;padding-left:1.1em">
+          <li>Reviewing &amp; validating</li>
+          <li>Validity profiles</li>
+          <li>Agentic coding</li>
+          <li>Toothbrush problems</li>
+          <li>…</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.1 GROCERY ============ -->
+<section class="sec" id="grocery" aria-labelledby="grocery-h">
+  <div class="wrap">
+    <div class="sec-head"><span class="num" aria-hidden="true">1.1</span><h2 id="grocery-h">Open Science Online Grocery</h2></div>
+    <p class="byline"><strong>Holly Howe</strong><span>University of British Columbia</span></p>
+
+    <div class="block">
+      <h3>Demonstration: User Side</h3>
+      <div class="shots">
+        <figure>
+          <img src="assets/osog-user.webp" width="1280" height="672" alt="Online grocery storefront with a category menu and product grid showing fruit" loading="lazy">
+        </figure>
+        <figure>
+          <img src="assets/osog-checkout.webp" width="1280" height="652" alt="Checkout page listing three products with subtotal, tax and a Complete Order button" loading="lazy">
+        </figure>
+      </div>
+      <p class="small" style="margin-top:16px">~11,000 products; US market</p>
+    </div>
+
+    <div class="block">
+      <h3>Demonstration: Researcher Side</h3>
+      <div class="two">
+        <div>
+          <p class="cols-h">What can be manipulated?</p>
+          <ul class="bl">
+            <li>Add <strong>labels</strong> to food</li>
+            <li><strong>Sort</strong> products within a page</li>
+            <li>Create <strong>custom categories</strong> (e.g. SNAP eligible, vegan)</li>
+            <li>Create custom <strong>prices</strong> and discounts and assign participants a <strong>budget</strong></li>
+            <li>Give cart-level <strong>feedback</strong></li>
+            <li>Modify the formatting of the <strong>nutrition facts label</strong></li>
+            <li><strong>Recommend</strong> products based on what’s added to cart</li>
+            <li>Give participants <strong>multiple budgets</strong> (e.g., gift card or SNAP benefits)</li>
+          </ul>
+        </div>
+        <div>
+          <p class="cols-h">What can be measured?</p>
+          <ul class="bl">
+            <li><strong>Products added to the cart</strong>
+              <ul class="bl" style="margin-top:8px;font-weight:400">
+                <li>Category of each product</li>
+                <li>Nutritional value of each product</li>
+                <li>Price of each product</li>
+              </ul>
+            </li>
+            <li><strong>Total amount spent</strong></li>
+            <li><strong>Items viewed, but not added to cart</strong></li>
+            <li><strong>Items removed from cart</strong></li>
+            <li><strong>Purchasing behavior over multiple trials</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Two tech stacks for running OSOG</h3>
+      <div class="stackrow">
+        <div class="stackcol">
+          <h4><a href="https://openscience-onlinegrocery.com/" style="color:inherit">Using the hosted website</a></h4>
+          <span class="url">(openscience-onlinegrocery.com/)</span>
+          <h5>Pros</h5>
+          <ul><li>Easy set up (just need Qualtrics and participants)</li></ul>
+          <h5>Cons</h5>
+          <ul>
+            <li>Generally, limited to existing functionalities</li>
+            <li>$75 annual fee</li>
+            <li>Limited hours of operation</li>
+          </ul>
+        </div>
+        <div class="stackcol">
+          <h4><a href="https://github.com/Open-Science-Online-Grocery/online-grocery" style="color:inherit">DIY Hosting</a></h4>
+          <span class="url">(https://github.com/Open-Science-Online-Grocery/online-grocery)</span>
+          <h5>Pros</h5>
+          <ul><li>Highly customizable</li></ul>
+          <h5>Cons</h5>
+          <ul>
+            <li>Must pay hosting fees yourself (~$250/mo)</li>
+            <li>Requires significant coding knowledge</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Comparison to Existing Options</h3>
+      <div class="two">
+        <figure>
+          <figcaption class="t">(Incentive Compatible) Qualtrics Studies</figcaption>
+          <img src="assets/survey-table.webp" width="1000" height="683" alt="Survey-based choice: a table of four chocolate products with photos, sizes and prices" loading="lazy">
+        </figure>
+        <figure>
+          <figcaption class="t">Real Behavior in a Mock or Real Store</figcaption>
+          <img src="assets/store-photo.webp" width="1400" height="933" alt="Shelves of snacks and a drinks fridge in a mock grocery store" loading="lazy">
+        </figure>
+      </div>
+
+      <div style="margin-top:56px">
+        <table class="results">
+          <thead><tr><th></th><th scope="col">Qualtrics Studies</th><th scope="col">Field/Lab data</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">The size of the focal effect</th><td class="q" data-h="Qualtrics Studies">??</td><td data-h="Field/Lab data">The effect size of an intervention (labelling, shelf position) is <strong>equal</strong> across field data and simulations.</td></tr>
+            <tr><th scope="row">Money spent</th><td data-h="Qualtrics Studies">People <strong>spend more</strong> in survey studies than in simulations.</td><td data-h="Field/Lab data">People spend <strong>equal</strong> amounts in simulations as they do in mock stores.</td></tr>
+            <tr><th scope="row">Relationship between intent and behavior</th><td data-h="Qualtrics Studies">Intent is a <strong>stronger</strong> predictor of behavior in simulations vs. surveys</td><td data-h="Field/Lab data">Intent is an <strong>equally</strong> good predictor of behavior in simulations vs. mock stores.</td></tr>
+            <tr><th scope="row">Test-retest reliability</th><td data-h="Qualtrics Studies">Test-retest reliability is stronger for surveys than simulations, but simulations reach acceptable TRR</td><td class="q" data-h="Field/Lab data">??</td></tr>
+          </tbody>
+        </table>
+        <p class="cite">(Reppman, Howe, Krentz, Edinger-Schons &amp; Foege, in prep)</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Relevant Links</h3>
+      <ul class="linkrows">
+        <li><a href="https://openscience-onlinegrocery.com/" target="_blank" rel="noopener">The hosted website <span>openscience-onlinegrocery.com</span></a></li>
+        <li><a href="https://github.com/Open-Science-Online-Grocery/online-grocery" target="_blank" rel="noopener">The Github repository <span>github.com/Open-Science-Online-Grocery/online-grocery</span></a></li>
+        <li><a href="https://doi.org/10.1086/720449" target="_blank" rel="noopener">A JACR paper describing the tool <span>doi.org/10.1086/720449</span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.2 DICE ============ -->
+<section class="sec" id="dice" aria-labelledby="dice-h">
+  <div class="wrap">
+    <div class="sec-head"><span class="num" aria-hidden="true">1.2</span><h2 id="dice-h">DICE</h2></div>
+
+    <div class="dice-title">
+      <div>
+        <p class="tag">Advancing <mark>Social Media Research</mark> through Digital In-Context Experiments</p>
+        <div class="auth3">
+          <div><strong>Hauke Roggenkamp</strong><span>ETH Zurich</span></div>
+          <div><strong>Johannes Boegershausen</strong><span>Erasmus University Rotterdam</span></div>
+          <div><strong>Christian Hildebrand</strong><span>University of St. Gallen</span></div>
+        </div>
+        <p class="when-r">ACR 2026 | 26 September 2026</p>
+      </div>
+      <img src="assets/dice-hero.webp" width="1200" height="945" alt="Illustration of a smartphone with chat bubbles, a star and a puzzle piece" style="width:100%;height:auto;mix-blend-mode:multiply">
+    </div>
+
+    <div class="block">
+      <h3>Study Paradigms in Social Media Research</h3>
+      <div class="paradigms">
+        <div>
+          <h4>Vignette Experiments</h4>
+          <p>Researchers recruit study participants and manipulate key variables within structured scenarios to elicit individual responses and study decision-making or perceptions.</p>
+        </div>
+        <div>
+          <h4>Platform Studies</h4>
+          <p>Researchers use online platforms to expose social media users to ads that vary in copy and creative, measuring their natural reactions to these manipulations on an aggregated level.</p>
+        </div>
+        <div>
+          <h4>Observational Studies</h4>
+          <p>Researchers collect and analyze existing data from social media users' natural behavior on platforms, without intervention (i.e., without manipulating variables or creating artificial scenarios).</p>
+        </div>
+        <div class="interf">
+          <b>“Algorithmic interference”</b>
+          <ul class="irefs">
+            <li>Braun &amp; Schwartz (2025)</li>
+            <li>Gordon, Moakler &amp; Zettelmeyer (2023)</li>
+          </ul>
+          <ul class="irefs">
+            <li>Boegershausen et al. (2022)</li>
+            <li>Xu, Zhang &amp; Zhou (2020)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="axes" role="img" aria-label="From vignette experiments to observational studies, study realism increases (minus to plus) while experimental control decreases (plus to minus).">
+        <div class="axis"><span class="e">−</span><div class="m"><b>Study realism</b></div><span class="e">+</span></div>
+        <div class="axis rev"><span class="e">+</span><div class="m"><b>Experimental control</b></div><span class="e">−</span></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Introducing DICE</h3>
+      <div class="intro">
+        <div>
+          <p class="lede">Create social media <strong>feeds</strong> and measure how participants <strong>interact</strong> with them.</p>
+          <ul class="bl">
+            <li>More <strong>realistic</strong> stimuli*</li>
+            <li>Control over &amp; manipulation over <strong>feed composition &amp; sequence</strong></li>
+            <li>Granular <strong>behavioral</strong> measures, e.g., as a proxy for (in)attention</li>
+          </ul>
+          <div class="social" aria-label="Platforms DICE can mimic">
+            <img src="assets/ic-x-twitter.webp" alt="Twitter" width="38" height="38">
+            <img src="assets/ic-linkedin.webp" alt="LinkedIn" width="38" height="38">
+            <img src="assets/ic-instagram.webp" alt="Instagram" width="38" height="38">
+            <img src="assets/ic-tiktok.webp" alt="TikTok" width="38" height="38">
+          </div>
+          <p class="small">See also <a href="http://dice-app.org">dice-app.org</a></p>
+        </div>
+        <div class="phone-wrap">
+          <div class="bubble">We created this feed using the DICE app</div>
+          <div class="phone">
+            <video data-autoplay muted loop playsinline preload="none" poster="assets/dice-feed.webp" aria-label="Screen recording of a scrolling social media feed created with DICE">
+              <source src="assets/dice-feed.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Tech Stack: Designed for Others</h3>
+      <ol class="four">
+        <li data-n="1">Building the tool for others required accessibility considerations.</li>
+        <li data-n="2">Accessibility considerations required simple and ubiquitous frameworks.</li>
+        <li data-n="3">Those frameworks cost me some flexibility.</li>
+        <li data-n="4">But those frameworks also tend to work very well with vibe coding nowadays.</li>
+      </ol>
+      <div class="layers">
+        <div class="rail"><div>Recruitment Platforms <em>e.g., Prolific</em></div></div>
+        <div class="mid">
+          <div class="lbox ghost">
+            <div class="ghost-row"><b>No-Code User Interface</b><b>Flask App</b></div>
+            <span class="small" style="display:block;text-align:right;font-style:italic">Python micro web framework making API calls</span>
+          </div>
+          <div class="lbox">
+            <h4>DICE App</h4>
+            <div class="row"><b>Backend: oTree</b><span>Python, widely used in experimental econ &amp; finance</span></div>
+            <div class="row"><b>Frontend: Bootstrap, HTML, JavaScript</b><span>very basic and widely used tools in web development</span></div>
+          </div>
+        </div>
+        <div class="rail r"><div>Survey Platforms <em>e.g., Qualtrics</em></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.3 TESTTUBE ============ -->
+<section class="sec dark" id="testtube" aria-labelledby="tt-h">
+  <div class="wrap">
+    <div class="sec-head"><span class="num" aria-hidden="true">1.3</span><h2 id="tt-h">TestTube</h2></div>
+
+    <div class="tt-intro">
+      <div>
+        <img class="logo" src="assets/tt-logo.webp" width="900" height="360" alt="TestTube logo">
+        <p class="tag">Short-form video feeds built for research</p>
+      </div>
+      <div class="team">
+        <figure><img src="assets/tt-maxwell.webp" width="420" height="760" alt="Portrait of Maxwell Poole" loading="lazy"><figcaption>Maxwell<br>Poole</figcaption></figure>
+        <figure><img src="assets/tt-johannes.webp" width="420" height="760" alt="Portrait of Johannes Boegershausen" loading="lazy"><figcaption>Johannes<br>Boegershausen</figcaption></figure>
+        <figure><img src="assets/tt-bram.webp" width="420" height="760" alt="Portrait of Bram Van den Bergh" loading="lazy"><figcaption>Bram<br>Van den Bergh</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Why did we build it?</h3>
+      <div class="why">
+        <div class="pane">
+          <img class="lockic" src="assets/pf-unlock.webp" alt="" width="34" height="44">
+          <h4>What they show us</h4>
+          <p class="why-sub">public counts via the API</p>
+          <ul class="pub">
+            <li><b>1.12M</b><span>views</span></li>
+            <li><b>89.1K</b><span>likes</span></li>
+            <li><b>1.40K</b><span>comments</span></li>
+            <li><b>17.1K</b><span>saves</span></li>
+            <li><b>28.7K</b><span>shares</span></li>
+          </ul>
+        </div>
+        <div class="platforms" aria-label="TikTok, Instagram, Facebook and YouTube Shorts">
+          <img src="assets/pf-tiktok.webp" alt="TikTok" width="54" height="54">
+          <img src="assets/pf-instagram.webp" alt="Instagram" width="54" height="54">
+          <img src="assets/pf-facebook.webp" alt="Facebook" width="54" height="54">
+          <img src="assets/pf-shorts.webp" alt="YouTube Shorts" width="54" height="54">
+        </div>
+        <div class="pane">
+          <img class="lockic" src="assets/pf-lock.webp" alt="" width="34" height="44">
+          <h4>What they hide</h4>
+          <p class="why-sub">the behaviour they optimize on</p>
+          <div class="hidden-grid">
+            <div class="stat"><b>8.3 s</b><strong>Dwell time</strong><span>median per video</span></div>
+            <div class="stat"><b>32%</b><strong>Completion rate</strong><span>watched to the end</span></div>
+            <div class="stat"><b>7%</b><strong>Re-watch</strong><span>loop at least once</span></div>
+            <div class="stat"><b>23%</b><strong>Skips</strong><span>gone within 3 s</span></div>
+            <div class="stat"><b>0.5 s</b><strong>Decision latency</strong><span>tap to play</span></div>
+            <div class="stat"><b>4.0 min</b><strong>Session duration</strong><span>in the feed</span></div>
+            <div class="stat"><b>17</b><strong>Scroll fatigue</strong><span>videos before leaving</span></div>
+            <div class="stat"><b>23%</b><strong>Content preference</strong><span>of picks are travel</span></div>
+            <div class="stat"><b>6</b><strong>A/B tests</strong><span>feed designs at once</span></div>
+          </div>
+          <p class="footnote">example numbers from a TestTube study of 204 sessions</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>The feed, the features, the measures</h3>
+      <div class="tt3">
+        <div class="tcard">
+          <h4>The Feed</h4>
+          <p>Real, popular videos in a feed that looks and feels like the real thing, on phone or desktop.</p>
+          <div class="phone push"><img src="assets/tt-feed.webp" width="420" height="651" alt="A TestTube feed showing a mountain landscape video with like, comment and share buttons" loading="lazy"></div>
+        </div>
+        <div class="tcard">
+          <h4>The Features</h4>
+          <p>Every design feature is a switch we set per condition.</p>
+          <ul class="switches">
+            <li>Autoplay <span class="sw on" role="img" aria-label="on"></span></li>
+            <li>Play delay <span class="sw" role="img" aria-label="off"></span></li>
+            <li>Choice slides <span class="sw on" role="img" aria-label="on"></span></li>
+            <li>Ads <span class="sw" role="img" aria-label="off"></span></li>
+            <li>Skip-or-play <span class="sw" role="img" aria-label="off"></span></li>
+            <li>Session cap <span class="sw on" role="img" aria-label="on"></span></li>
+          </ul>
+        </div>
+        <div class="tcard">
+          <h4>The Measures</h4>
+          <p>Every swipe, tap and second of playback is time-stamped and logged in a csv.</p>
+          <pre class="code"><i>14:02:07.1</i> play_start  autoplay
+<i>14:02:09.4</i> button_click  Like video
+<i>14:02:11.0</i> video_switch  swipe
+<i>14:02:11.5</i> play_start  autoplay
+<i>14:02:14.2</i> comments_open
+<i>14:02:19.9</i> comments_close
+<i>14:02:23.3</i> video_natural_end  15.9 s
+<i>14:02:24.1</i> video_switch  button</pre>
+          <div class="tl push"><img src="assets/tt-timeline.webp" width="1400" height="738" alt="Timeline chart of one session: videos played, choice slides, likes, comments and the point where the return button unlocks" loading="lazy" style="border:0"></div>
+        </div>
+      </div>
+      <figure class="demo">
+        <video controls muted loop playsinline preload="none" poster="assets/tt-poster.webp" aria-label="Screen recording of a TestTube session next to its live interaction log">
+          <source src="assets/tt-demo.mp4" type="video/mp4">
+        </video>
+      </figure>
+    </div>
+
+    <div class="block">
+      <h3>How TestTube works</h3>
+      <div class="flow">
+        <div class="step">
+          <span class="n">1</span>
+          <h4><img class="" src="assets/ic-html.webp" alt="" width="30" height="30">The website</h4>
+          <p>HTML / JS front end<br>Flask back end</p>
+          <p class="mut">manipulations are URL parameters</p>
+          <code>?cell=cp50&amp;ads=1&amp;pd=500</code>
+        </div>
+        <div class="step">
+          <span class="n">2</span>
+          <h4><img class="lg" src="assets/ic-python.webp" alt="" width="40" height="30">The feed builder</h4>
+          <p>crawls 1,300+ hashtags</p>
+          <div class="kv"><div><b>5M+</b><span>video corpus</span></div><div><b>200</b><span>slots filtered + balanced</span></div></div>
+          <div class="chips"><span class="chip"><img class="lg" src="assets/ic-rapid.webp" alt="" width="40" height="12" style="width:auto;height:14px">Rapid</span></div>
+        </div>
+        <div class="step">
+          <span class="n">3</span>
+          <h4><img class="inv" src="assets/ic-github.webp" alt="" width="30" height="30">GitHub</h4>
+          <p>website code + feed CSVs</p>
+          <div class="chips"><span class="chip">feed + features</span><span class="chip">deploy</span></div>
+        </div>
+        <div class="step">
+          <span class="n">4</span>
+          <h4><img src="assets/ic-server.webp" alt="" width="30" height="30" class="inv" style="filter:none;opacity:.55">Linux VM</h4>
+          <p>hosts the website</p>
+          <p>writes the interaction log in real time, one CSV per session</p>
+          <code>2026-09-17_14-02-07_R_10Panwmw5xYvclT.csv</code>
+          <p class="mut">start time + Qualtrics Response ID</p>
+          <div class="chips"><span class="chip"><img src="assets/ic-cloud.webp" alt="" width="16" height="16">Cloud storage: video files not stored on the VM</span></div>
+        </div>
+        <div class="step">
+          <span class="n">5</span>
+          <h4><img src="assets/ic-phone.webp" alt="" width="30" height="30" class="inv">Participant</h4>
+          <p>opens the link; the feed renders in the browser</p>
+          <p>every swipe and tap is sent back as it happens</p>
+          <p class="mut">videos stream from cloud storage straight to the browser</p>
+          <div class="chips"><span class="chip"><img src="assets/ic-qualtrics.webp" alt="" width="16" height="16" class="inv">Qualtrics survey sends the link with condition + ID</span><span class="chip">interaction events</span></div>
+        </div>
+        <div class="step">
+          <span class="n">6</span>
+          <h4><img src="assets/ic-analysis.webp" alt="" width="30" height="30" class="inv">Analysis</h4>
+          <p>logs matched to the survey by Response ID</p>
+          <div class="chips"><span class="chip">download logs</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.4 BOOKSTORE ============ -->
+<section class="sec" id="bookstore" aria-labelledby="bk-h">
+  <div class="wrap">
+    <div class="sec-head"><span class="num" aria-hidden="true">1.4</span><h2 id="bk-h">Bookstore</h2></div>
+
+    <h3 style="font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:800;letter-spacing:-.025em;color:var(--accent);margin-bottom:14px">Simulated Store Methodology</h3>
+    <p class="byline"><strong>Ilya Morozov (Northwestern Kellogg)</strong><span>ACR Conference, Chicago, September 2026</span></p>
+
+    <div class="block">
+      <h3>Simulated Online Bookstore</h3>
+      <div class="shots">
+        <figure>
+          <figcaption class="t">Product List</figcaption>
+          <img src="assets/bk-list.webp" width="1321" height="1196" alt="Grid of ten book covers with titles, prices, star ratings and authors" loading="lazy">
+        </figure>
+        <figure>
+          <figcaption class="t">Product Detail Pages</figcaption>
+          <img src="assets/bk-detail.webp" width="1506" height="1153" alt="Product page for the book A Light through the Cracks with price, add to cart button and description" loading="lazy">
+        </figure>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="pc">
+        <div>
+          <h4>Simulated Store Methodology: Advantages</h4>
+          <ol>
+            <li><b>Experimental control</b>
+              <ul><li>Unpack mechanisms driving the main effects</li><li>Run treatments that industry collaborators would not want to run</li></ul></li>
+            <li><b>Detailed behavioral data</b>
+              <ul><li>Collect more granular data than is usually available (scrolling, clicks, queries, etc.)</li></ul></li>
+            <li><b>Higher external validity in the lab</b>
+              <ul><li>Realistic choice environment with real incentives</li></ul></li>
+          </ol>
+        </div>
+        <div>
+          <h4>Simulated Store Methodology: Drawbacks</h4>
+          <ol>
+            <li><b><s>Difficult to set-up</s></b>
+              <ul><li>No longer true in 2026 thanks to agentic coding</li></ul></li>
+            <li><b>Creating incentives is expensive</b>
+              <ul><li>Need to give subjects a budget to incentivize their choices</li></ul></li>
+            <li><b>Lower external validity than field studies</b>
+              <ul><li>Always get the criticism “. . . but this is a fake store!”</li></ul></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Follow-Up Study: AI-Assisted Search</h3>
+      <figure>
+        <img src="assets/bk-followup.webp" width="1600" height="898" alt="Board game shop with product cards and an AI game finder chat panel recommending games" loading="lazy">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.5 RESOURCES ============ -->
+<section class="sec" id="resources" aria-labelledby="res-h">
+  <div class="wrap">
+    <div class="sec-head"><span class="num" aria-hidden="true">1.5</span><h2 id="res-h">Resources</h2></div>
+
+    <div class="tablewrap">
+      <table class="res">
+        <thead>
+          <tr><th></th><th scope="col">Open Science Online Grocery</th><th scope="col">DICE</th><th scope="col">TestTube</th><th scope="col">Simulated Online Bookstore</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Contact</th>
+            <td><strong>Holly Howe</strong><a href="mailto:holly.howe@hec.ca">holly.howe@hec.ca</a></td>
+            <td><strong>Hauke Roggenkamp</strong><a href="mailto:hauke.roggenkamp@mtec.ethz.ch">hauke.roggenkamp@mtec.ethz.ch</a></td>
+            <td><strong>Maxwell Poole</strong><a href="mailto:poole@rsm.nl">poole@rsm.nl</a></td>
+            <td><strong>Ilya Morozov</strong><a href="mailto:ilya.morozov@kellogg.northwestern.edu">ilya.morozov@kellogg.northwestern.edu</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Publication</th>
+            <td><strong><a href="https://doi.org/10.1086/720449">Howe et al. (2022)</a></strong><span class="j">Journal of the Association for Consumer Research</span></td>
+            <td><strong><a href="https://doi.org/10.1177/00222429251371702">Roggenkamp et al. (2025)</a></strong><span class="j">Journal of Marketing</span></td>
+            <td class="na">Work in progress</td>
+            <td><strong><a href="https://doi.org/10.1287/mksc.2023.0138">Morozov &amp; Tuchman (2024)</a></strong><span class="j">Marketing Science</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Tool website</th>
+            <td><a href="https://openscience-onlinegrocery.com/">openscience-onlinegrocery.com</a></td>
+            <td><a href="https://www.dice-app.org/">dice-app.org</a></td>
+            <td class="na">–</td>
+            <td class="na">–</td>
+          </tr>
+          <tr>
+            <th scope="row">Code</th>
+            <td><a href="https://github.com/Open-Science-Online-Grocery/online-grocery">GitHub repository</a></td>
+            <td><a href="https://github.com/Howquez/DICE">GitHub repository</a></td>
+            <td class="na">–</td>
+            <td><a href="https://pubsonline.informs.org/doi/suppl/10.1287/mksc.2023.0138/suppl_file/mksc.2023.0138.sm1.pdf">Supplemental materials</a><br><a href="https://github.com/ilyamorozov/adContent">Data &amp; replication code</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="block">
+      <h3>Resources II</h3>
+      <ul class="papers">
+        <li class="paper">
+          <a class="page" href="https://andreyfradkin.com/assets/webmunk_white_paper.pdf" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/paper-webmunk.webp" width="641" height="397" alt="" loading="lazy"></a>
+          <div class="c"><p class="au">Farronato, C., &amp; Fradkin, A. (2026)</p><h4><a href="https://andreyfradkin.com/assets/webmunk_white_paper.pdf" target="_blank" rel="noopener">Webmunk 2: A Tool for Studying Online Behavior and Digital Platforms</a></h4><p class="v">White paper</p></div>
+        </li>
+        <li class="paper">
+          <a class="page" href="https://www.sciencedirect.com/science/article/pii/S016781162500117X" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/paper-joerling.webp" width="718" height="445" alt="" loading="lazy"></a>
+          <div class="c"><p class="au">Joerling, M. (2026)</p><h4><a href="https://www.sciencedirect.com/science/article/pii/S016781162500117X" target="_blank" rel="noopener">Integrating GenAI interactions in marketing studies: A methodological guide</a></h4><p class="v">International Journal of Research in Marketing, 43, 28–47</p></div>
+        </li>
+        <li class="paper fit">
+          <a class="page" href="https://lucidresearch.io/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/paper-lucid.webp" width="801" height="378" alt="" loading="lazy"></a>
+          <div class="c"><p class="au">Garvey, A. G., &amp; Blanchard, S. J. (2025)</p><h4><a href="https://lucidresearch.io/" target="_blank" rel="noopener">Generative AI as a Research Confederate: The LUCID Methodological Framework and Toolkit for Controlled Human-AI Interactions in Survey Research</a></h4><p class="v">Working paper, SSRN</p></div>
+        </li>
+        <li class="paper">
+          <a class="page" href="https://doi.org/10.1177/10949968251404927" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/paper-pikal.webp" width="960" height="594" alt="" loading="lazy"></a>
+          <div class="c"><p class="au">Pikal, K., Villarroel Ordenes, F., Herhausen, D., &amp; Tamagnini, P. (2026)</p><h4><a href="https://doi.org/10.1177/10949968251404927" target="_blank" rel="noopener">From Insight to Impact: Closing the Marketing Science Value Chain with Interactive, Research-Driven Apps</a></h4><p class="v">Journal of Interactive Marketing, 61(3), 241–256</p></div>
+        </li>
+      </ul>
+      <a class="issue" href="https://journals.sagepub.com/toc/jmxa/90/5" target="_blank" rel="noopener">
+        <img src="assets/jm-cover.webp" width="180" height="232" alt="Journal of Marketing cover, Volume 90 Issue 5">
+        <div>
+          <p class="k">Special issue</p>
+          <h4>Marketing Impact with Research-Driven Apps</h4>
+          <p class="w">Journal of Marketing, Vol. 90, Issue 5, September 2026</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>New experimental paradigms and tools for consumer research</span>
+    <span>ACR 2026, Chicago, 26 September 2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.bar nav a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  var secs=Object.keys(map).map(function(id){return document.getElementById(id)}).filter(Boolean);
+  function setActive(id){links.forEach(function(a){a.removeAttribute('aria-current')});
+    if(map[id]){map[id].setAttribute('aria-current','true');
+      var n=map[id],box=n.parentNode;if(box.scrollWidth>box.clientWidth){box.scrollTo({left:n.offsetLeft-24,behavior:'smooth'})}}}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setActive(e.target.id)})},{rootMargin:'-40% 0px -55% 0px'});
+    secs.forEach(function(s){io.observe(s)});
+  }
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [].forEach.call(document.querySelectorAll('video'),function(v){
+    if(reduce){v.setAttribute('controls','');return}
+    if(v.hasAttribute('data-autoplay')&&'IntersectionObserver' in window){
+      v.preload='auto';
+      new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()})},{threshold:.35}).observe(v);
+    }
+  });
+})();
+</script>
+</body>
+</html>
